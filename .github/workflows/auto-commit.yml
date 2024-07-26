@@ -1,0 +1,24 @@
+name: Auto Commit Machine
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Runs every 1 minute
+  push:
+    branches: [main]
+jobs:
+  make-commits:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Debug - List files
+      run: ls -la
+    - name: Add a line to the log
+      run: echo "Commit at $(date)" | tee -a commit-log.txt
+    - name: Debug - Show file content
+      run: cat commit-log.txt
+    - name: Commit and push
+      run: |
+        git config --global user.name "Auto Commit Bot"
+        git config --global user.email "bot@commits.com"
+        git add commit-log.txt
+        git commit -m "Auto commit on $(date)" || echo "Nothing to commit"
+        git push
