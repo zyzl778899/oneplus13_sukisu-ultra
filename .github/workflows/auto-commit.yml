@@ -1,7 +1,7 @@
 name: Auto Commit Machine
 on:
   schedule:
-    - cron: '*/1 * * * *'  # Runs every 1 minute
+    - cron: '*/5 * * * *'  # Runs every 5 minute
   push:
     branches: [main]
 jobs:
